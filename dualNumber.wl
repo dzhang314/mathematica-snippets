@@ -2,7 +2,7 @@
 
 ClearAll[$f, $x, $y, $a, termList, dropTail,
 	dualUnit, dualNumber, dualProduct, dualInverse, dualPower, dualFunction,
-	dualFunctionData, dualFunctionExpr];
+	dualFunctionData, dualFunctionFromData];
 
 termList[0] = {};
 termList[expr_] := With[{expanded = Expand@expr},
@@ -51,7 +51,20 @@ dualFunctionData[n_Integer] := dualFunctionData[n] = dropTail[{}] /@ Table[
 	{expr, Rest@dualFunction[n]}, {k, n},
 	{term, termList@Coefficient[expr, Derivative[k][$f][Indexed[$x, 1]]]}];
 
-dualFunctionExpr[data_] := Table[Expand@Dot[
+dualFunctionFromData[data_] := Table[Expand@Dot[
 		Derivative[#][$f][Indexed[$x, 1]] & /@ Range@Length@list,
 		Total /@ Apply[Times, Map[Indexed[$x, #] &, list, {3}], {2}]],
 	{list, data}] ~Prepend~ $f[Indexed[$x, 1]];
+
+dualMultivariateFunction[dualOrder_Integer, numVars_Integer] :=
+	Prepend[
+		Table[
+			Sum[Times[
+				Product[Indexed[$x[tup[[i]]], par[[i]]], {i, k}],
+				Apply[(Derivative @@ Lookup[Counts[tup], Range[numVars], 0])[$f],
+					Table[Indexed[$x[i], 1], {i, numVars}]]],
+			{k, Length[dat]},
+			{par, dat[[k]]},
+			{tup, Tuples[Range[numVars], k]}],
+		{dat, dualFunctionData[dualOrder]}],
+	$f @@ Table[Indexed[$x[i], 1], {i, numVars}]];
