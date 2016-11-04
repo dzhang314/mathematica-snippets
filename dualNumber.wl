@@ -48,7 +48,8 @@ dualFunction[n_Integer, f_, x_] := dualFunction[n] /. {$f -> f, $x -> x};
 
 dualFunctionData[n_Integer] := dualFunctionData[n] = dropTail[{}] /@ Table[
 	FactorList[term][[2 ;;, 1, 2, 1]],
-	{expr, Rest@dualFunction[n]}, {k, n},
+	{expr, Rest@dualFunction[n]},
+	{k, n},
 	{term, termList@Coefficient[expr, Derivative[k][$f][Indexed[$x, 1]]]}];
 
 dualFunctionFromData[data_] := Table[Expand@Dot[
