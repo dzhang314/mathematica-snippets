@@ -10,348 +10,205 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     15428,        411]
-NotebookOptionsPosition[     15141,        397]
-NotebookOutlinePosition[     15486,        412]
-CellTagsIndexPosition[     15443,        409]
+NotebookDataLength[      9665,        268]
+NotebookOptionsPosition[      9384,        254]
+NotebookOutlinePosition[      9726,        269]
+CellTagsIndexPosition[      9683,        266]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
-Cell[BoxData[
- RowBox[{"Do", "[", "\[IndentingNewLine]", 
-  RowBox[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"dualQuot", "=", 
    RowBox[{
-    RowBox[{"memberNames", "=", 
-     RowBox[{"Prepend", "[", 
+    RowBox[{"dualProduct", "[", "dualOrder", "]"}], "/.", 
+    RowBox[{"$y", "\[Rule]", 
+     RowBox[{"(", 
       RowBox[{
-       RowBox[{
-        RowBox[{
-         RowBox[{"\"\<du\>\"", "<>", 
-          RowBox[{"(", 
-           RowBox[{"StringJoin", "@@", 
-            RowBox[{"ToString", "/@", "#"}]}], ")"}]}], "&"}], "/@", 
-        RowBox[{"Rest", "@", 
-         RowBox[{"Subsets", "@", 
-          RowBox[{"Range", "[", 
-           RowBox[{"0", ",", 
-            RowBox[{"dualOrder", "-", "1"}]}], "]"}]}]}]}], ",", 
-       "\"\<re\>\""}], "]"}]}], ";", "\[IndentingNewLine]", 
-    RowBox[{"longMemberNames", "=", 
-     RowBox[{"Prepend", "[", 
-      RowBox[{
-       RowBox[{
-        RowBox[{
-         RowBox[{"\"\<dual\>\"", "<>", 
-          RowBox[{"(", 
-           RowBox[{"StringJoin", "@@", 
-            RowBox[{"ToString", "/@", "#"}]}], ")"}]}], "&"}], "/@", 
-        RowBox[{"Rest", "@", 
-         RowBox[{"Subsets", "@", 
-          RowBox[{"Range", "[", 
-           RowBox[{"0", ",", 
-            RowBox[{"dualOrder", "-", "1"}]}], "]"}]}]}]}], ",", 
-       "\"\<real\>\""}], "]"}]}], ";", "\[IndentingNewLine]", 
-    RowBox[{"rhsNames", "=", 
-     RowBox[{
-      RowBox[{
-       RowBox[{"\"\<rhs.\>\"", "<>", "#"}], "&"}], "/@", "memberNames"}]}], 
-    ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
-    RowBox[{"numLen", "=", 
-     RowBox[{"StringLength", "@", 
-      RowBox[{"ToString", "[", 
-       RowBox[{"2", "^", "dualOrder"}], "]"}]}]}], ";", "\[IndentingNewLine]", 
-    RowBox[{"tempDeclarations", "=", 
-     RowBox[{"Table", "[", 
-      RowBox[{
-       RowBox[{"\"\<const T temp\>\"", "<>", 
-        RowBox[{"intString", "[", 
-         RowBox[{"i", ",", "numLen"}], "]"}], "<>", "\"\< = \>\""}], ",", 
+       RowBox[{"dualFunction", "[", "dualOrder", "]"}], "/.", 
        RowBox[{"{", 
-        RowBox[{"i", ",", "0", ",", 
-         RowBox[{
-          RowBox[{"2", "^", "dualOrder"}], "-", "1"}]}], "}"}]}], "]"}]}], 
-    ";", "\[IndentingNewLine]", 
-    RowBox[{"tempAssignments", "=", 
-     RowBox[{"Table", "[", 
-      RowBox[{
-       RowBox[{
-        RowBox[{"memberNames", "\[LeftDoubleBracket]", 
-         RowBox[{"i", "+", "1"}], "\[RightDoubleBracket]"}], "<>", 
-        "\"\< = temp\>\"", "<>", 
-        RowBox[{"intString", "[", 
-         RowBox[{"i", ",", "numLen"}], "]"}]}], ",", 
-       RowBox[{"{", 
-        RowBox[{"i", ",", "0", ",", 
-         RowBox[{
-          RowBox[{"2", "^", "dualOrder"}], "-", "1"}]}], "}"}]}], "]"}]}], 
-    ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
-    RowBox[{"sp8", "=", "\"\<        \>\""}], ";", "\[IndentingNewLine]", 
-    RowBox[{"sp12", "=", "\"\<            \>\""}], ";", "\[IndentingNewLine]",
-     "\[IndentingNewLine]", 
-    RowBox[{"argListCode", "=", 
-     RowBox[{"sp8", "<>", 
-      RowBox[{"riffleJoin", "[", 
-       RowBox[{
         RowBox[{
-         RowBox[{
-          RowBox[{"\"\<const T &\>\"", "<>", "#1"}], "&"}], "/@", 
-         "longMemberNames"}], ",", 
-        RowBox[{"\"\<,\\n\>\"", "<>", "sp8"}]}], "]"}]}]}], ";", 
-    "\[IndentingNewLine]", 
-    RowBox[{"memInitCode", "=", 
-     RowBox[{"sp8", "<>", 
-      RowBox[{"riffleJoin", "[", 
-       RowBox[{
-        RowBox[{
-         RowBox[{
-          RowBox[{"#1", "<>", "\"\<(\>\"", "<>", "#2", "<>", "\"\<)\>\""}], 
-          "&"}], "@@@", 
-         RowBox[{"Transpose", "@", 
-          RowBox[{"{", 
-           RowBox[{"memberNames", ",", "longMemberNames"}], "}"}]}]}], ",", 
-        RowBox[{"\"\<,\\n\>\"", "<>", "sp8"}]}], "]"}]}]}], ";", 
-    "\[IndentingNewLine]", 
-    RowBox[{"tempAssignCode", "=", 
-     RowBox[{"sp8", "<>", 
-      RowBox[{"riffleJoin", "[", 
-       RowBox[{"tempAssignments", ",", 
-        RowBox[{"\"\<;\\n\>\"", "<>", "sp8"}]}], "]"}], "<>", "\"\<;\>\""}]}],
-     ";", "\[IndentingNewLine]", 
-    RowBox[{"memberDeclareCode", "=", 
-     RowBox[{"\"\<    \>\"", "<>", 
-      RowBox[{"riffleJoin", "[", 
-       RowBox[{
-        RowBox[{
-         RowBox[{
-          RowBox[{"\"\<T \>\"", "<>", "#"}], "&"}], "/@", "memberNames"}], 
-        ",", "\"\<;\\n    \>\""}], "]"}], "<>", "\"\<;\>\""}]}], ";", 
-    "\[IndentingNewLine]", "\[IndentingNewLine]", 
-    RowBox[{"prodExprs", "=", 
+         RowBox[{"$f", "\[Rule]", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"#", "^", 
+             RowBox[{"-", "1"}]}], "&"}], ")"}]}], ",", 
+         RowBox[{"$x", "\[Rule]", "$y"}]}], "}"}]}], ")"}]}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"quotCoeffs", "=", 
+    RowBox[{
      RowBox[{
-      RowBox[{
-       RowBox[{
-        RowBox[{"dualProduct", "[", "dualOrder", "]"}], "/.", 
-        RowBox[{"{", 
-         RowBox[{
-          RowBox[{"$x", "\[Rule]", "memberNames"}], ",", 
-          RowBox[{"$y", "\[Rule]", "rhsNames"}]}], "}"}]}], "/.", 
-       "\[IndentingNewLine]", 
-       RowBox[{
-        RowBox[{"Times", "[", 
-         RowBox[{"x_", ",", "y_"}], "]"}], "\[RuleDelayed]", 
-        RowBox[{"StringJoin", "[", 
-         RowBox[{"x", ",", "\"\<*\>\"", ",", "y"}], "]"}]}]}], "/.", 
-      "\[IndentingNewLine]", 
-      RowBox[{
-       RowBox[{"Plus", "[", 
-        RowBox[{"arg_", ",", "args__"}], "]"}], "\[RuleDelayed]", 
-       RowBox[{"riffleJoin", "[", 
-        RowBox[{
-         RowBox[{"{", 
-          RowBox[{"arg", ",", "args"}], "}"}], ",", "\"\< + \>\""}], 
-        "]"}]}]}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
-    RowBox[{"dualQuot", "=", 
-     RowBox[{
-      RowBox[{"dualProduct", "[", "dualOrder", "]"}], "/.", 
-      RowBox[{"$y", "\[Rule]", 
-       RowBox[{"(", 
-        RowBox[{
-         RowBox[{"dualFunction", "[", "dualOrder", "]"}], "/.", 
-         RowBox[{"{", 
+      RowBox[{"Rest", "@", 
+       RowBox[{"CoefficientList", "[", 
+        RowBox[{"#", ",", 
+         RowBox[{"Power", "[", 
           RowBox[{
-           RowBox[{"$f", "\[Rule]", 
+           TemplateBox[{"$y","1"},
+            "IndexedDefault"], ",", 
+           RowBox[{"-", "1"}]}], "]"}]}], "]"}]}], "&"}], "/@", 
+     "dualQuot"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"normalizedCoeffs", "=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Expand", "[", 
+      RowBox[{"#", "/", 
+       RowBox[{"Map", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{"#", "!"}], 
+           RowBox[{
             RowBox[{"(", 
-             RowBox[{
-              RowBox[{"#", "^", 
-               RowBox[{"-", "1"}]}], "&"}], ")"}]}], ",", 
-           RowBox[{"$x", "\[Rule]", "$y"}]}], "}"}]}], ")"}]}]}]}], ";", 
-    "\[IndentingNewLine]", 
-    RowBox[{"quotCoeffs", "=", 
-     RowBox[{
-      RowBox[{
-       RowBox[{"Rest", "@", 
-        RowBox[{"CoefficientList", "[", 
-         RowBox[{"#", ",", 
-          RowBox[{"Power", "[", 
+             RowBox[{"-", "1"}], ")"}], "^", "#"}]}], "&"}], ",", 
+         RowBox[{"Range", "[", 
+          RowBox[{"0", ",", 
            RowBox[{
-            TemplateBox[{"$y","1"},
-             "IndexedDefault"], ",", 
-            RowBox[{"-", "1"}]}], "]"}]}], "]"}]}], "&"}], "/@", 
-      "dualQuot"}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
-    RowBox[{"normalizedCoeffs", "=", 
-     RowBox[{
-      RowBox[{
-       RowBox[{"Expand", "[", 
-        RowBox[{"#", "/", 
-         RowBox[{"Map", "[", 
-          RowBox[{
-           RowBox[{
-            RowBox[{
-             RowBox[{"#", "!"}], 
-             RowBox[{
-              RowBox[{"(", 
-               RowBox[{"-", "1"}], ")"}], "^", "#"}]}], "&"}], ",", 
-           RowBox[{"Range", "[", 
-            RowBox[{"0", ",", 
-             RowBox[{
-              RowBox[{"Length", "[", "#", "]"}], "-", "1"}]}], "]"}]}], 
-          "]"}]}], "]"}], "&"}], "/@", "quotCoeffs"}]}], ";", 
-    "\[IndentingNewLine]", 
-    RowBox[{"namedCoeffs", "=", 
-     RowBox[{
-      RowBox[{
-       RowBox[{"normalizedCoeffs", "/.", 
-        RowBox[{"{", 
-         RowBox[{
-          RowBox[{"$x", "\[Rule]", "memberNames"}], ",", 
-          RowBox[{"$y", "\[Rule]", "rhsNames"}]}], "}"}]}], "/.", 
-       "\[IndentingNewLine]", 
+            RowBox[{"Length", "[", "#", "]"}], "-", "1"}]}], "]"}]}], "]"}]}],
+       "]"}], "&"}], "/@", "quotCoeffs"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"namedCoeffs", "=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"normalizedCoeffs", "/.", 
+      RowBox[{"{", 
        RowBox[{
-        RowBox[{"Times", "[", 
-         RowBox[{"arg_", ",", "args__"}], "]"}], "\[RuleDelayed]", 
-        RowBox[{"riffleJoin", "[", 
+        RowBox[{"$x", "\[Rule]", "memberNames"}], ",", 
+        RowBox[{"$y", "\[Rule]", "rhsNames"}]}], "}"}]}], "/.", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"Times", "[", 
+       RowBox[{"arg_", ",", "args__"}], "]"}], "\[RuleDelayed]", 
+      RowBox[{"riffleJoin", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"arg", ",", "args"}], "}"}], ",", "\"\<*\>\""}], "]"}]}]}], "/.",
+     "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"Plus", "[", 
+      RowBox[{"arg_", ",", "args__"}], "]"}], "\[RuleDelayed]", 
+     RowBox[{"riffleJoin", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"arg", ",", "args"}], "}"}], ",", "\"\< + \>\""}], 
+      "]"}]}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"quotExprs", "=", 
+    RowBox[{"Table", "[", 
+     RowBox[{
+      RowBox[{"Module", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"count", "=", "0"}], "}"}], ",", 
+        RowBox[{"StringReplace", "[", "\[IndentingNewLine]", 
          RowBox[{
-          RowBox[{"{", 
-           RowBox[{"arg", ",", "args"}], "}"}], ",", "\"\<*\>\""}], "]"}]}]}],
-       "/.", "\[IndentingNewLine]", 
-      RowBox[{
-       RowBox[{"Plus", "[", 
-        RowBox[{"arg_", ",", "args__"}], "]"}], "\[RuleDelayed]", 
-       RowBox[{"riffleJoin", "[", 
-        RowBox[{
-         RowBox[{"{", 
-          RowBox[{"arg", ",", "args"}], "}"}], ",", "\"\< + \>\""}], 
-        "]"}]}]}]}], ";", "\[IndentingNewLine]", 
-    RowBox[{"quotExprs", "=", 
-     RowBox[{"Table", "[", 
-      RowBox[{
-       RowBox[{"Module", "[", 
-        RowBox[{
-         RowBox[{"{", 
-          RowBox[{"count", "=", "0"}], "}"}], ",", 
-         RowBox[{"StringReplace", "[", "\[IndentingNewLine]", 
-          RowBox[{
-           RowBox[{"\"\<(\>\"", "<>", 
-            RowBox[{"Fold", "[", 
+          RowBox[{"\"\<(\>\"", "<>", 
+           RowBox[{"Fold", "[", 
+            RowBox[{
              RowBox[{
               RowBox[{
-               RowBox[{
-               "\"\<XX*(\>\"", "<>", "#1", "<>", "\"\<) / rhs.re + \>\"", "<>",
-                 "#2"}], "&"}], ",", 
-              RowBox[{"Reverse", "@", "term"}]}], "]"}], "<>", 
-            "\"\<) / rhs.re\>\""}], ",", "\[IndentingNewLine]", 
-           RowBox[{"\"\<XX\>\"", "\[RuleDelayed]", 
-            RowBox[{"ToString", "[", 
-             RowBox[{"--", "count"}], "]"}]}]}], "]"}]}], "]"}], ",", 
-       "\[IndentingNewLine]", 
-       RowBox[{"{", 
-        RowBox[{"term", ",", "namedCoeffs"}], "}"}]}], "]"}]}], ";", 
-    "\[IndentingNewLine]", "\[IndentingNewLine]", 
-    RowBox[{"addEqCode", "=", 
-     RowBox[{"sp8", "<>", 
-      RowBox[{"riffleJoin", "[", 
-       RowBox[{
-        RowBox[{
-         RowBox[{
-          RowBox[{"#1", "<>", "\"\< += \>\"", "<>", "#2"}], "&"}], "@@@", 
-         RowBox[{"Transpose", "@", 
-          RowBox[{"{", 
-           RowBox[{"memberNames", ",", "rhsNames"}], "}"}]}]}], ",", 
-        RowBox[{"\"\<;\\n\>\"", "<>", "sp8"}]}], "]"}], "<>", "\"\<;\>\""}]}],
-     ";", "\[IndentingNewLine]", 
-    RowBox[{"subEqCode", "=", 
-     RowBox[{"sp8", "<>", 
-      RowBox[{"riffleJoin", "[", 
-       RowBox[{
-        RowBox[{
-         RowBox[{
-          RowBox[{"#1", "<>", "\"\< -= \>\"", "<>", "#2"}], "&"}], "@@@", 
-         RowBox[{"Transpose", "@", 
-          RowBox[{"{", 
-           RowBox[{"memberNames", ",", "rhsNames"}], "}"}]}]}], ",", 
-        RowBox[{"\"\<;\\n\>\"", "<>", "sp8"}]}], "]"}], "<>", "\"\<;\>\""}]}],
-     ";", "\[IndentingNewLine]", 
-    RowBox[{"mulEqCode", "=", 
-     RowBox[{"sp8", "<>", 
-      RowBox[{"riffleJoin", "[", 
-       RowBox[{
-        RowBox[{"StringJoin", "/@", 
-         RowBox[{"Transpose", "@", 
-          RowBox[{"{", 
-           RowBox[{"tempDeclarations", ",", "prodExprs"}], "}"}]}]}], ",", 
-        RowBox[{"\"\<;\\n\>\"", "<>", "sp8"}]}], "]"}], "<>", "\"\<;\>\""}]}],
-     ";", "\[IndentingNewLine]", 
-    RowBox[{"divEqCode", "=", 
-     RowBox[{"sp8", "<>", 
-      RowBox[{"riffleJoin", "[", 
-       RowBox[{
-        RowBox[{"StringJoin", "/@", 
-         RowBox[{"Transpose", "@", 
-          RowBox[{"{", 
-           RowBox[{"tempDeclarations", ",", "quotExprs"}], "}"}]}]}], ",", 
-        RowBox[{"\"\<;\\n\>\"", "<>", "sp8"}]}], "]"}], "<>", "\"\<;\>\""}]}],
-     ";", "\[IndentingNewLine]", 
-    RowBox[{"mulCode", "=", 
-     RowBox[{"sp12", "<>", 
-      RowBox[{"riffleJoin", "[", 
-       RowBox[{"prodExprs", ",", 
-        RowBox[{"\"\<,\\n\>\"", "<>", "sp12"}]}], "]"}]}]}], ";", 
-    "\[IndentingNewLine]", 
-    RowBox[{"divCode", "=", 
-     RowBox[{"sp12", "<>", 
-      RowBox[{"riffleJoin", "[", 
-       RowBox[{"quotExprs", ",", 
-        RowBox[{"\"\<,\\n\>\"", "<>", "sp12"}]}], "]"}]}]}], ";", 
-    "\[IndentingNewLine]", "\[IndentingNewLine]", 
-    RowBox[{"cppTemplate", "=", 
-     RowBox[{"Import", "[", 
-      RowBox[{
-      "\"\<C:\\\\Users\\\\dzhan\\\\Desktop\\\\DualNumber_Template.cpp\>\"", 
-       ",", "\"\<Text\>\""}], "]"}]}], ";", "\[IndentingNewLine]", 
-    RowBox[{"Export", "[", 
+              "\"\<XX*(\>\"", "<>", "#1", "<>", "\"\<) / rhs.re + \>\"", "<>",
+                "#2"}], "&"}], ",", 
+             RowBox[{"Reverse", "@", "term"}]}], "]"}], "<>", 
+           "\"\<) / rhs.re\>\""}], ",", "\[IndentingNewLine]", 
+          RowBox[{"\"\<XX\>\"", "\[RuleDelayed]", 
+           RowBox[{"ToString", "[", 
+            RowBox[{"--", "count"}], "]"}]}]}], "]"}]}], "]"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"term", ",", "namedCoeffs"}], "}"}]}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"mulEqCode", "=", 
+   RowBox[{"sp8", "<>", 
+    RowBox[{"riffleJoin", "[", 
      RowBox[{
-      RowBox[{"\"\<DualNumber\>\"", "<>", 
-       RowBox[{"ToString", "[", "dualOrder", "]"}], "<>", "\"\<.txt\>\""}], 
-      ",", 
-      RowBox[{"StringReplace", "[", 
-       RowBox[{"cppTemplate", ",", 
-        RowBox[{"{", "\[IndentingNewLine]", 
-         RowBox[{
-          RowBox[{"\"\<[[ADD_EQ_CODE]]\>\"", "\[Rule]", "addEqCode"}], ",", 
-          "\[IndentingNewLine]", 
-          RowBox[{"\"\<[[SUB_EQ_CODE]]\>\"", "\[Rule]", "subEqCode"}], ",", 
-          "\[IndentingNewLine]", 
-          RowBox[{"\"\<[[MUL_EQ_CODE]]\>\"", "\[Rule]", "mulEqCode"}], ",", 
-          "\[IndentingNewLine]", 
-          RowBox[{"\"\<[[DIV_EQ_CODE]]\>\"", "\[Rule]", "divEqCode"}], ",", 
-          "\[IndentingNewLine]", 
-          RowBox[{"\"\<[[MUL_CODE]]\>\"", "\[Rule]", "mulCode"}], ",", 
-          "\[IndentingNewLine]", 
-          RowBox[{"\"\<[[DIV_CODE]]\>\"", "\[Rule]", "divCode"}], ",", 
-          "\[IndentingNewLine]", 
-          RowBox[{
-          "\"\<[[TEMP_ASSIGN_CODE]]\>\"", "\[Rule]", "tempAssignCode"}], ",", 
-          "\[IndentingNewLine]", 
-          RowBox[{
-          "\"\<[[MEM_DECL_CODE]]\>\"", "\[Rule]", "memberDeclareCode"}], ",", 
-          "\[IndentingNewLine]", 
-          RowBox[{"\"\<[[ARG_LIST_CODE]]\>\"", "\[Rule]", "argListCode"}], 
-          ",", "\[IndentingNewLine]", 
-          RowBox[{"\"\<[[MEM_INIT_CODE]]\>\"", "\[Rule]", "memInitCode"}], 
-          ",", "\[IndentingNewLine]", 
-          RowBox[{"\"\<DualNumber\>\"", "\[Rule]", 
-           RowBox[{"\"\<DualNumber\>\"", "<>", 
-            RowBox[{"ToString", "[", "dualOrder", "]"}]}]}]}], 
-         "\[IndentingNewLine]", "}"}]}], "]"}]}], "]"}], ";"}], 
-   "\[IndentingNewLine]", ",", 
-   RowBox[{"{", 
-    RowBox[{"dualOrder", ",", "0", ",", "10"}], "}"}]}], "]"}]], "Input",
+      RowBox[{"StringJoin", "/@", 
+       RowBox[{"Transpose", "@", 
+        RowBox[{"{", 
+         RowBox[{"tempDeclarations", ",", "prodExprs"}], "}"}]}]}], ",", 
+      RowBox[{"\"\<;\\n\>\"", "<>", "sp8"}]}], "]"}], "<>", "\"\<;\>\""}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"divEqCode", "=", 
+   RowBox[{"sp8", "<>", 
+    RowBox[{"riffleJoin", "[", 
+     RowBox[{
+      RowBox[{"StringJoin", "/@", 
+       RowBox[{"Transpose", "@", 
+        RowBox[{"{", 
+         RowBox[{"tempDeclarations", ",", "quotExprs"}], "}"}]}]}], ",", 
+      RowBox[{"\"\<;\\n\>\"", "<>", "sp8"}]}], "]"}], "<>", "\"\<;\>\""}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"mulCode", "=", 
+   RowBox[{"sp12", "<>", 
+    RowBox[{"riffleJoin", "[", 
+     RowBox[{"prodExprs", ",", 
+      RowBox[{"\"\<,\\n\>\"", "<>", "sp12"}]}], "]"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"divCode", "=", 
+    RowBox[{"sp12", "<>", 
+     RowBox[{"riffleJoin", "[", 
+      RowBox[{"quotExprs", ",", 
+       RowBox[{"\"\<,\\n\>\"", "<>", "sp12"}]}], "]"}]}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"cppTemplate", "=", 
+   RowBox[{"Import", "[", 
+    RowBox[{
+    "\"\<C:\\\\Users\\\\dzhan\\\\Desktop\\\\DualNumber_Template.cpp\>\"", 
+     ",", "\"\<Text\>\""}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+    RowBox[{"\"\<DualNumber\>\"", "<>", 
+     RowBox[{"ToString", "[", "dualOrder", "]"}], "<>", "\"\<.txt\>\""}], ",", 
+    RowBox[{"StringReplace", "[", 
+     RowBox[{"cppTemplate", ",", 
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"\"\<[[ADD_EQ_CODE]]\>\"", "\[Rule]", "addEqCode"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"\"\<[[SUB_EQ_CODE]]\>\"", "\[Rule]", "subEqCode"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"\"\<[[MUL_EQ_CODE]]\>\"", "\[Rule]", "mulEqCode"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"\"\<[[DIV_EQ_CODE]]\>\"", "\[Rule]", "divEqCode"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"\"\<[[MUL_CODE]]\>\"", "\[Rule]", "mulCode"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"\"\<[[DIV_CODE]]\>\"", "\[Rule]", "divCode"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"\"\<[[TEMP_ASSIGN_CODE]]\>\"", "\[Rule]", "tempAssignCode"}],
+         ",", "\[IndentingNewLine]", 
+        RowBox[{"\"\<[[MEM_DECL_CODE]]\>\"", "\[Rule]", "memberDeclareCode"}],
+         ",", "\[IndentingNewLine]", 
+        RowBox[{"\"\<[[ARG_LIST_CODE]]\>\"", "\[Rule]", "argListCode"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"\"\<[[MEM_INIT_CODE]]\>\"", "\[Rule]", "memInitCode"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"\"\<DualNumber\>\"", "\[Rule]", 
+         RowBox[{"\"\<DualNumber\>\"", "<>", 
+          RowBox[{"ToString", "[", "dualOrder", "]"}]}]}]}], 
+       "\[IndentingNewLine]", "}"}]}], "]"}]}], "]"}], ";"}]}], "Input",
  CellChangeTimes->{{3.6871242901389923`*^9, 3.6871242995892124`*^9}, {
    3.687124394093569*^9, 3.687124394588376*^9}, 3.687124638781765*^9, {
    3.6871247314274874`*^9, 3.687124741605259*^9}, {3.687125160557968*^9, 
    3.687125161031366*^9}, {3.6871256811940737`*^9, 3.6871257172340794`*^9}, {
-   3.6871265830235662`*^9, 3.6871265950790977`*^9}}],
+   3.6871265830235662`*^9, 3.6871265950790977`*^9}, {3.687275989376151*^9, 
+   3.6872759934127617`*^9}, 3.6872762393106966`*^9, 3.6872762935836997`*^9, {
+   3.687276329248095*^9, 3.6872763346930094`*^9}, 3.687276394904739*^9, 
+   3.687276438024945*^9, {3.687276553342246*^9, 3.687276553810938*^9}, {
+   3.687276759150446*^9, 3.687276759990756*^9}, {3.687276851915889*^9, 
+   3.6872768795646024`*^9}, 3.68727700110948*^9, 3.687277331154907*^9, 
+   3.6874417995783567`*^9}],
 
 Cell[BoxData[
  RowBox[{"(*", 
@@ -395,8 +252,8 @@ Cell[BoxData[
   3.6871256118202424`*^9, 3.6871256226851006`*^9}, {3.6871256718899326`*^9, 
   3.687125676066044*^9}, {3.687125716355458*^9, 3.6871257222214003`*^9}}]
 },
-WindowSize->{1920, 1007},
-WindowMargins->{{-8, Automatic}, {Automatic, -8}},
+WindowSize->{956, 997},
+WindowMargins->{{-6, Automatic}, {Automatic, 0}},
 FrontEndVersion->"10.4 for Microsoft Windows (64-bit) (April 11, 2016)",
 StyleDefinitions->"Default.nb"
 ]
@@ -411,8 +268,8 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[558, 20, 13100, 333, 1112, "Input"],
-Cell[13661, 355, 1476, 40, 72, "Input"]
+Cell[558, 20, 7343, 190, 652, "Input"],
+Cell[7904, 212, 1476, 40, 72, "Input"]
 }
 ]
 *)
