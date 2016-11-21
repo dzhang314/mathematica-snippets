@@ -38,6 +38,9 @@ hyperangularLaplacian[d_Integer] := Module[
 		D[f, Indexed[\[FormalTheta], i]],
 		{i, d-1}]];
 
+hyperangularAreaElement[d_Integer] :=
+	Product[Sin[Indexed[\[FormalTheta], i]]^i, {i, d-1}];
+
 
 fromHypersphericalCoordinates[d_Integer] :=
 	\[FormalR] * fromHyperangularCoordinates[d-1];
@@ -68,10 +71,12 @@ hypersphericalLaplacian[d_Integer] := Module[
 			D[f, Indexed[\[FormalTheta], i]],
 		{i, d-2}]];
 
+hypersphericalAreaElement[d_Integer] :=
+	\[FormalR]^(d-1) * hyperangularAreaElement[d-1];
+
 
 (*
-Self-consistency checking code.
-Should output all zeroes when run.
+Self-consistency check. Should output all zeroes.
 
 Table[Subtract[hyperangularLaplacian[d],
 	hypersphericalLaplacian[d+1] /. \[FormalR] \[Rule] 1 //. {
@@ -99,5 +104,4 @@ Table[Subtract[hypersphericalVariables[d],
 		Thread[cartesianVariables[d] \[Rule]
 			fromHypersphericalCoordinates[d]]]]],
 	{d, 2, 10}]
-
 *)

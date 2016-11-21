@@ -1,0 +1,533 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.4' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     17473,        525]
+NotebookOptionsPosition[     16929,        502]
+NotebookOutlinePosition[     17303,        518]
+CellTagsIndexPosition[     17260,        515]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Import", "[", 
+   RowBox[{"FileNameJoin", "[", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"NotebookDirectory", "[", "]"}], ",", "\[IndentingNewLine]", 
+      "\"\<harmonicPolynomials.wl\>\""}], "}"}], "]"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ClearAll", "[", 
+   RowBox[{"\[Xi]", ",", "\[CapitalLambda]"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"\[Xi]", "[", "j_Integer", "]"}], ":=", 
+   RowBox[{"Apply", "[", 
+    RowBox[{"Times", ",", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"Sin", "[", 
+        TemplateBox[{"\[FormalTheta]","#"},
+         "IndexedDefault"], "]"}], "&"}], "/@", 
+      RowBox[{"Range", "[", "j", "]"}]}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"\[Xi]", "[", 
+    RowBox[{"i_Integer", ",", "j_Integer"}], "]"}], ":=", 
+   RowBox[{"Apply", "[", 
+    RowBox[{"Times", ",", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"Sin", "[", 
+        TemplateBox[{"\[FormalTheta]","#"},
+         "IndexedDefault"], "]"}], "&"}], "/@", 
+      RowBox[{"Range", "[", 
+       RowBox[{"i", ",", "j"}], "]"}]}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"\[CapitalLambda]", "[", 
+     RowBox[{"i_", ",", "j_", ",", "f_"}], "]"}], ":=", 
+    RowBox[{
+     RowBox[{
+      TemplateBox[{"\[FormalX]","i"},
+       "IndexedDefault"], 
+      RowBox[{"D", "[", 
+       RowBox[{"f", ",", 
+        TemplateBox[{"\[FormalX]","j"},
+         "IndexedDefault"]}], "]"}]}], "-", 
+     RowBox[{
+      TemplateBox[{"\[FormalX]","j"},
+       "IndexedDefault"], 
+      RowBox[{"D", "[", 
+       RowBox[{"f", ",", 
+        TemplateBox[{"\[FormalX]","i"},
+         "IndexedDefault"]}], "]"}]}]}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ClearAll", "[", "dx", "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"dx", "[", 
+    RowBox[{"f_", ",", "1", ",", "d_"}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"\[Xi]", "[", 
+      RowBox[{"d", "-", "2"}], "]"}], 
+     RowBox[{"Cos", "[", "\[FormalPhi]", "]"}], 
+     RowBox[{"D", "[", 
+      RowBox[{"f", ",", "\[FormalR]"}], "]"}]}], "+", 
+    RowBox[{
+     FractionBox[
+      RowBox[{"Cos", "[", "\[FormalPhi]", "]"}], "\[FormalR]"], 
+     RowBox[{
+      UnderoverscriptBox["\[Sum]", 
+       RowBox[{"k", "=", "1"}], 
+       RowBox[{"d", "-", "2"}]], 
+      RowBox[{
+       FractionBox[
+        RowBox[{"\[Xi]", "[", 
+         RowBox[{"k", "-", "1"}], "]"}], 
+        RowBox[{"\[Xi]", "[", 
+         RowBox[{
+          RowBox[{"k", "+", "1"}], ",", 
+          RowBox[{"d", "-", "2"}]}], "]"}]], 
+       RowBox[{"Cos", "[", 
+        TemplateBox[{"\[FormalTheta]","k"},
+         "IndexedDefault"], "]"}], 
+       RowBox[{"D", "[", 
+        RowBox[{"f", ",", 
+         TemplateBox[{"\[FormalTheta]","k"},
+          "IndexedDefault"]}], "]"}]}]}]}], "-", 
+    RowBox[{
+     FractionBox[
+      RowBox[{"Sin", "[", "\[FormalPhi]", "]"}], 
+      RowBox[{"\[FormalR]", " ", 
+       RowBox[{"\[Xi]", "[", 
+        RowBox[{"d", "-", "2"}], "]"}]}]], 
+     RowBox[{"D", "[", 
+      RowBox[{"f", ",", "\[FormalPhi]"}], "]"}]}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"dx", "[", 
+    RowBox[{"f_", ",", "2", ",", "d_"}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"\[Xi]", "[", 
+      RowBox[{"d", "-", "2"}], "]"}], 
+     RowBox[{"Sin", "[", "\[FormalPhi]", "]"}], 
+     RowBox[{"D", "[", 
+      RowBox[{"f", ",", "\[FormalR]"}], "]"}]}], "+", 
+    RowBox[{
+     FractionBox[
+      RowBox[{"Sin", "[", "\[FormalPhi]", "]"}], "\[FormalR]"], 
+     RowBox[{
+      UnderoverscriptBox["\[Sum]", 
+       RowBox[{"k", "=", "1"}], 
+       RowBox[{"d", "-", "2"}]], 
+      RowBox[{
+       FractionBox[
+        RowBox[{"\[Xi]", "[", 
+         RowBox[{"k", "-", "1"}], "]"}], 
+        RowBox[{"\[Xi]", "[", 
+         RowBox[{
+          RowBox[{"k", "+", "1"}], ",", 
+          RowBox[{"d", "-", "2"}]}], "]"}]], 
+       RowBox[{"Cos", "[", 
+        TemplateBox[{"\[FormalTheta]","k"},
+         "IndexedDefault"], "]"}], 
+       RowBox[{"D", "[", 
+        RowBox[{"f", ",", 
+         TemplateBox[{"\[FormalTheta]","k"},
+          "IndexedDefault"]}], "]"}]}]}]}], "+", 
+    RowBox[{
+     FractionBox[
+      RowBox[{"Cos", "[", "\[FormalPhi]", "]"}], 
+      RowBox[{"\[FormalR]", " ", 
+       RowBox[{"\[Xi]", "[", 
+        RowBox[{"d", "-", "2"}], "]"}]}]], 
+     RowBox[{"D", "[", 
+      RowBox[{"f", ",", "\[FormalPhi]"}], "]"}]}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"dx", "[", 
+    RowBox[{"f_", ",", "i_Integer", ",", "d_"}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"\[Xi]", "[", 
+      RowBox[{
+       RowBox[{"i", "-", "1"}], ",", 
+       RowBox[{"d", "-", "2"}]}], "]"}], 
+     RowBox[{"Cos", "[", 
+      TemplateBox[{"\[FormalTheta]",RowBox[{"i", "-", "2"}]},
+       "IndexedDefault"], "]"}], 
+     RowBox[{"D", "[", 
+      RowBox[{"f", ",", "\[FormalR]"}], "]"}]}], "-", 
+    RowBox[{
+     FractionBox[
+      RowBox[{"Sin", "[", 
+       TemplateBox[{"\[FormalTheta]",RowBox[{"i", "-", "2"}]},
+        "IndexedDefault"], "]"}], 
+      RowBox[{"\[FormalR]", " ", 
+       RowBox[{"\[Xi]", "[", 
+        RowBox[{
+         RowBox[{"i", "-", "1"}], ",", 
+         RowBox[{"d", "-", "2"}]}], "]"}]}]], 
+     RowBox[{"D", "[", 
+      RowBox[{"f", ",", 
+       TemplateBox[{"\[FormalTheta]",RowBox[{"i", "-", "2"}]},
+        "IndexedDefault"]}], "]"}]}], "+", 
+    RowBox[{
+     FractionBox[
+      RowBox[{"Cos", "[", 
+       TemplateBox[{"\[FormalTheta]",RowBox[{"i", "-", "2"}]},
+        "IndexedDefault"], "]"}], "\[FormalR]"], 
+     RowBox[{
+      UnderoverscriptBox["\[Sum]", 
+       RowBox[{"k", "=", 
+        RowBox[{"i", "-", "1"}]}], 
+       RowBox[{"d", "-", "2"}]], 
+      RowBox[{
+       FractionBox[
+        RowBox[{"\[Xi]", "[", 
+         RowBox[{
+          RowBox[{"i", "-", "1"}], ",", 
+          RowBox[{"k", "-", "1"}]}], "]"}], 
+        RowBox[{"\[Xi]", "[", 
+         RowBox[{
+          RowBox[{"k", "+", "1"}], ",", 
+          RowBox[{"d", "-", "2"}]}], "]"}]], 
+       RowBox[{"Cos", "[", 
+        TemplateBox[{"\[FormalTheta]","k"},
+         "IndexedDefault"], "]"}], 
+       RowBox[{"D", "[", 
+        RowBox[{"f", ",", 
+         TemplateBox[{"\[FormalTheta]","k"},
+          "IndexedDefault"]}], "]"}]}]}]}]}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.688534601387107*^9, 3.6885346433161545`*^9}, {
+  3.6886098598728075`*^9, 3.6886098604159727`*^9}, {3.6886099169040775`*^9, 
+  3.6886099484541903`*^9}, {3.6886134072838864`*^9, 3.688613411096424*^9}, {
+  3.688613636579342*^9, 3.6886136368920627`*^9}, {3.6886185110116043`*^9, 
+  3.688618518399355*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"dx", " ", "self"}], "-", 
+    RowBox[{"consistency", " ", 
+     RowBox[{"check", ".", " ", "Should"}], " ", "return", " ", "all", " ", 
+     RowBox[{"zeroes", "."}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"Table", "[", 
+   RowBox[{
+    RowBox[{"Expand", "[", 
+     RowBox[{
+      RowBox[{"dx", "[", 
+       RowBox[{
+        RowBox[{"\[FormalF]", "@@", 
+         RowBox[{"hypersphericalVariables", "[", "d", "]"}]}], ",", "i", ",", 
+        "d"}], "]"}], "-", "\[IndentingNewLine]", 
+      RowBox[{"Assuming", "[", 
+       RowBox[{
+        RowBox[{"hypersphericalAssumptions", "[", "d", "]"}], ",", 
+        RowBox[{"Simplify", "[", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"D", "[", 
+           RowBox[{
+            RowBox[{"\[FormalF]", "@@", 
+             RowBox[{"toHypersphericalCoordinates", "[", "d", "]"}]}], ",", 
+            TemplateBox[{"\[FormalX]","i"},
+             "IndexedDefault"]}], "]"}], "/.", "\[IndentingNewLine]", 
+          RowBox[{"\[FormalX]", "\[Rule]", 
+           RowBox[{"fromHypersphericalCoordinates", "[", "d", "]"}]}]}], 
+         "]"}]}], "]"}]}], "]"}], ",", "\[IndentingNewLine]", 
+    RowBox[{"{", 
+     RowBox[{"d", ",", "2", ",", "5"}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"i", ",", "d"}], "}"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.688613663989995*^9, 3.6886136713772235`*^9}, {
+  3.688613707737031*^9, 3.688613743457051*^9}, {3.688614077452509*^9, 
+  3.6886140982924747`*^9}, {3.6886185284411573`*^9, 3.6886185285793867`*^9}, {
+  3.6886186382078333`*^9, 3.688618640688734*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"0", ",", "0"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", "0", ",", "0"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", "0", ",", "0", ",", "0"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", "0"}], "}"}]}], 
+  "}"}]], "Output",
+ CellChangeTimes->{
+  3.68861351648092*^9, {3.6886136540286717`*^9, 3.6886137301842823`*^9}, 
+   3.6886138564328146`*^9, {3.6886186369118614`*^9, 3.6886186602861867`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"d", "=", "4"}], ";"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"expr", "=", 
+     RowBox[{"Sum", "[", 
+      RowBox[{
+       RowBox[{"\[CapitalLambda]", "[", 
+        RowBox[{"i", ",", "j", ",", 
+         RowBox[{"\[CapitalLambda]", "[", 
+          RowBox[{"i", ",", "j", ",", 
+           RowBox[{"\[FormalF]", "@@", 
+            RowBox[{"toHypersphericalCoordinates", "[", "d", "]"}]}]}], 
+          "]"}]}], "]"}], ",", "\[IndentingNewLine]", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", "d"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"j", ",", 
+         RowBox[{"i", "+", "1"}], ",", "d"}], "}"}]}], "]"}]}], ";"}], "*)"}],
+   "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"expr", "=", 
+     RowBox[{"Laplacian", "[", 
+      RowBox[{
+       RowBox[{"\[FormalF]", "@@", 
+        RowBox[{"toHypersphericalCoordinates", "[", "d", "]"}]}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{"cartesianVariables", "[", "d", "]"}]}], "]"}]}], ";"}], 
+   "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"expr", "=", 
+   RowBox[{"expr", "//.", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"Derivative", "[", "inds___", "]"}], "[", "\[FormalF]", "]"}], 
+      "[", "___", "]"}], "\[RuleDelayed]", 
+     RowBox[{
+      RowBox[{"Derivative", "[", "inds", "]"}], "[", "\[FormalF]", 
+      "]"}]}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"expr", "=", 
+   RowBox[{"expr", "//.", 
+    RowBox[{"Reverse", "@", 
+     RowBox[{"Thread", "[", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"Table", "[", 
+        RowBox[{
+         RowBox[{"Sum", "[", 
+          RowBox[{
+           SuperscriptBox[
+            TemplateBox[{"\[FormalX]","i"},
+             "IndexedDefault"], "2"], ",", 
+           RowBox[{"{", 
+            RowBox[{"i", ",", "1", ",", "k"}], "}"}]}], "]"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"k", ",", "2", ",", "d"}], "}"}]}], "]"}], "\[Rule]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Table", "[", 
+        RowBox[{
+         RowBox[{
+          SuperscriptBox["\[FormalR]", "2"], 
+          SuperscriptBox[
+           RowBox[{"\[Xi]", "[", 
+            RowBox[{"k", ",", 
+             RowBox[{"d", "-", "2"}]}], "]"}], "2"]}], ",", 
+         RowBox[{"{", 
+          RowBox[{"k", ",", 
+           RowBox[{"d", "-", "1"}]}], "}"}]}], "]"}]}], "]"}]}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"pows", "=", 
+   RowBox[{"Union", "@", 
+    RowBox[{"Cases", "[", 
+     RowBox[{"expr", ",", 
+      RowBox[{"Power", "[", 
+       RowBox[{"_", ",", "_"}], "]"}], ",", "All"}], "]"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"expr", "=", 
+   RowBox[{"expr", "//.", 
+    RowBox[{"Assuming", "[", 
+     RowBox[{
+      RowBox[{"hypersphericalAssumptions", "[", "d", "]"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"Thread", "[", 
+       RowBox[{"pows", "\[Rule]", 
+        RowBox[{"FullSimplify", "[", "pows", "]"}]}], "]"}]}], "]"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"expr", "=", 
+   RowBox[{"Expand", "[", 
+    RowBox[{"expr", "/.", 
+     RowBox[{"\[FormalX]", "\[Rule]", 
+      RowBox[{"fromHypersphericalCoordinates", "[", "d", "]"}]}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"derivs", "=", 
+   RowBox[{"Union", "@", 
+    RowBox[{"Cases", "[", 
+     RowBox[{"expr", ",", 
+      RowBox[{
+       RowBox[{"Derivative", "[", "___", "]"}], "[", "\[FormalF]", "]"}], ",",
+       "All"}], "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"expr", "=", 
+    RowBox[{"Dot", "[", 
+     RowBox[{
+      RowBox[{"Through", "[", 
+       RowBox[{"derivs", "@@", 
+        RowBox[{"hypersphericalVariables", "[", "d", "]"}]}], "]"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"FullSimplify", "/@", 
+       RowBox[{"Coefficient", "[", 
+        RowBox[{"expr", ",", "derivs"}], "]"}]}]}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"f", "=", 
+   RowBox[{"\[FormalF]", "@@", 
+    RowBox[{"hypersphericalVariables", "[", "d", "]"}]}]}], 
+  ";"}], "\[IndentingNewLine]", "expr"}], "Input",
+ CellChangeTimes->{{3.688621872381898*^9, 3.6886219694792037`*^9}, {
+   3.6886220703631687`*^9, 3.6886220819590597`*^9}, {3.688622790690645*^9, 
+   3.6886227989924297`*^9}, {3.688622836638044*^9, 3.6886228373305464`*^9}, {
+   3.688622921563605*^9, 3.688623041234892*^9}, {3.6886520261063223`*^9, 
+   3.6886520754198217`*^9}, {3.6886522360164356`*^9, 3.6886522726235065`*^9}, 
+   3.688652339770069*^9, {3.688652394920355*^9, 3.688652420551794*^9}, {
+   3.6886524512554255`*^9, 3.6886525595180197`*^9}, 3.688652619213417*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  SuperscriptBox["\[FormalR]", "3"], " ", 
+  RowBox[{
+   SuperscriptBox["\[FormalF]", 
+    TagBox[
+     RowBox[{"(", 
+      RowBox[{"3", ",", "0", ",", "0", ",", "0"}], ")"}],
+     Derivative],
+    MultilineFunction->None], "[", 
+   RowBox[{"\[FormalR]", ",", 
+    TemplateBox[{"\[FormalTheta]","1"},
+     "IndexedDefault"], ",", 
+    TemplateBox[{"\[FormalTheta]","2"},
+     "IndexedDefault"], ",", "\[FormalPhi]"}], "]"}]}]], "Output",
+ CellChangeTimes->{{3.6886220769279795`*^9, 3.688622082773735*^9}, 
+   3.6886228001588984`*^9, 3.6886228390855856`*^9, {3.6886229223990335`*^9, 
+   3.688623044998891*^9}, 3.6886231904134474`*^9, {3.688652036095208*^9, 
+   3.6886520757515864`*^9}, {3.688652250036276*^9, 3.688652273365677*^9}, 
+   3.688652341311679*^9, {3.6886524065004215`*^9, 3.688652423789048*^9}, {
+   3.688652468764161*^9, 3.688652561705123*^9}}]
+}, Open  ]],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"f", "=", 
+   RowBox[{"\[FormalF]", "@@", 
+    RowBox[{"hypersphericalVariables", "[", "d", "]"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Expand", "[", 
+  RowBox[{"expr", "-", 
+   RowBox[{"D", "[", 
+    RowBox[{"f", ",", "\[FormalR]", ",", "\[FormalR]"}], "]"}], "-", 
+   RowBox[{
+    FractionBox["1", 
+     RowBox[{
+      SuperscriptBox["\[FormalR]", "2"], 
+      SuperscriptBox[
+       RowBox[{"\[Xi]", "[", 
+        RowBox[{"d", "-", "2"}], "]"}], "2"]}]], 
+    RowBox[{"D", "[", 
+     RowBox[{"f", ",", "\[FormalPhi]", ",", "\[FormalPhi]"}], "]"}]}], "-", 
+   RowBox[{
+    FractionBox[
+     RowBox[{"d", "-", "1"}], "\[FormalR]"], 
+    RowBox[{"D", "[", 
+     RowBox[{"f", ",", "\[FormalR]"}], "]"}]}], "-", 
+   RowBox[{"Sum", "[", 
+    RowBox[{
+     RowBox[{
+      FractionBox["1", 
+       RowBox[{
+        SuperscriptBox["\[FormalR]", "2"], 
+        SuperscriptBox[
+         RowBox[{"\[Xi]", "[", 
+          RowBox[{
+           RowBox[{"k", "+", "1"}], ",", 
+           RowBox[{"d", "-", "2"}]}], "]"}], "2"]}]], 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         FractionBox["k", 
+          RowBox[{"Tan", "[", 
+           TemplateBox[{"\[FormalTheta]","k"},
+            "IndexedDefault"], "]"}]], 
+         RowBox[{"D", "[", 
+          RowBox[{"f", ",", 
+           TemplateBox[{"\[FormalTheta]","k"},
+            "IndexedDefault"]}], "]"}]}], "+", 
+        RowBox[{"D", "[", 
+         RowBox[{"f", ",", 
+          TemplateBox[{"\[FormalTheta]","k"},
+           "IndexedDefault"], ",", 
+          TemplateBox[{"\[FormalTheta]","k"},
+           "IndexedDefault"]}], "]"}]}], ")"}]}], ",", 
+     RowBox[{"{", 
+      RowBox[{"k", ",", 
+       RowBox[{"d", "-", "2"}]}], "}"}]}], "]"}]}], "]"}]}], "Input"]
+},
+WindowSize->{1500, 927},
+WindowMargins->{{-8, Automatic}, {Automatic, -8}},
+Magnification:>1.2 Inherited,
+FrontEndVersion->"10.4 for Microsoft Windows (64-bit) (April 11, 2016)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 6733, 206, 374, "Input"],
+Cell[CellGroupData[{
+Cell[7316, 230, 1635, 38, 159, "Input"],
+Cell[8954, 270, 524, 14, 36, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[9515, 289, 4747, 132, 490, "Input"],
+Cell[14265, 423, 879, 20, 39, "Output"]
+}, Open  ]],
+Cell[15159, 446, 1766, 54, 91, "Input"]
+}
+]
+*)
+
