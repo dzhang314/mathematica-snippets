@@ -8,13 +8,19 @@ Import[FileNameJoin[{NotebookDirectory[],
 
 ClearAll[monomials, harmonicPolynomialBasis];
 
+(* Note: Length[monomials[i, j]] \[Equal] Binomial[i + j - 1, j] *)
 monomials[numVars_Integer, degree_Integer] :=
 	Times @@ Power[Indexed[\[FormalX], #]& /@ Range[numVars], #]& /@
 		Reverse /@ orderedIntegerPartitions[numVars, 0][degree];
-(* Note: Length[monomials[i, j]] \[Equal] Binomial[i+j-1, j] *)
 
-harmonicPolynomialBasis[numVars_Integer, 0] := monomials[numVars, 0];
-harmonicPolynomialBasis[numVars_Integer, 1] := monomials[numVars, 1];
+(* 1 is the unique polynomial of degree 0, and it is harmonic. *)
+harmonicPolynomialBasis[numVars_Integer, 0] = {1};
+(* All polynomials of degree 1 are harmonic. *)
+harmonicPolynomialBasis[numVars_Integer, 1] := cartesianVariables[numVars];
+(* There are no nonzero polynomials of degree \[GreaterEqual] 2 in 0 variables. *)
+harmonicPolynomialBasis[0, degree_Integer] = {};
+(* For degree \[GreaterEqual] 2, no polynomials in 1 variable are harmonic. *)
+harmonicPolynomialBasis[1, degree_Integer] = {};
 
 harmonicPolynomialBasis[numVars_Integer, 2] :=
 	Dot[Reverse@NullSpace@List@
@@ -43,6 +49,12 @@ Hold[sphericalInnerProduct[ToExpression[#1], ToExpression[#2]] =
 		] :> {dim, deg}
 ] // Map[ReleaseHold];
 
+(* 1 is the only monomial of degree 0, and its integral is 1. *)
+sphericalInnerProduct[sphereDim_Integer, 0] = SparseArray[{{1}}];
+(* The only polynomial of degree k in 1 variable is x^k. *)
+(* Its square x^2k is constant when restricted to the 0-sphere. *)
+sphericalInnerProduct[0, degree_Integer] = SparseArray[{{1}}];
+
 sphericalInnerProduct[sphereDim_Integer, degree_Integer] :=
 sphericalInnerProduct[sphereDim, degree] =
 	Module[{monoms, prods, ans},
@@ -60,6 +72,15 @@ sphericalInnerProduct[sphereDim, degree] =
 			ans];
 		ans];
 
+(* 1 is the only polynomial of degree 0, and it is normalized. *)
+sphericalHarmonicBasis[sphereDim_Integer, 0] = {1};
+(* The coordinate functions are the polynomials of degree 1. *)
+(* They are harmonic, and normalized by Sqrt[dim+1]. *)
+sphericalHarmonicBasis[sphereDim_Integer, 1] :=
+	Sqrt[sphereDim+1] * cartesianVariables[sphereDim+1];
+(* There are no harmonic polynomials of degree \[GreaterEqual] 2 in 1 variable. *)
+sphericalHarmonicBasis[0, degree_Integer] = {};
+
 sphericalHarmonicBasis[sphereDim_Integer, degree_Integer] :=
 sphericalHarmonicBasis[sphereDim, degree] =
 	Dot[Orthogonalize[
@@ -68,6 +89,9 @@ sphericalHarmonicBasis[sphereDim, degree] =
 			monomials[sphereDim+1, degree]],
 		#1.sphericalInnerProduct[sphereDim, degree].#2 &],
 	monomials[sphereDim+1, degree]];
+
+(* Note: Length[sphericalHarmonicBasis[dim, deg]] \[Equal]
+	Binomial[dim + deg, deg] - Binomial[dim + deg - 2, deg - 2] *)
 
 
 (*

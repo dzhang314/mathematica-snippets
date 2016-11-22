@@ -1,0 +1,128 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.4' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      4311,        120]
+NotebookOptionsPosition[      4034,        106]
+NotebookOutlinePosition[      4377,        121]
+CellTagsIndexPosition[      4334,        118]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"LaunchKernels", "[", "9", "]"}], ";"}]], "Input",
+ CellChangeTimes->{{3.6887918848979254`*^9, 3.6887918886098113`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"ParallelDo", "[", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+    "Import", "[", 
+     "\"\<C:\\\\Users\\\\dzhan\\\\Documents\\\\GitHub\\\\mathematica-snippets\
+\\\\harmonicPolynomials.wl\>\"", "]"}], ";", "\[IndentingNewLine]", 
+    RowBox[{"fname", "=", 
+     RowBox[{"\"\<normalizedSphericalHarmonics_\>\"", "<>", 
+      RowBox[{"ToString", "[", "deg", "]"}], "<>", "\"\<.m\>\""}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{"FileExistsQ", "[", "fname", "]"}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"dim", "=", 
+        RowBox[{
+         RowBox[{"Max", "@", 
+          RowBox[{"Cases", "[", 
+           RowBox[{
+            RowBox[{"Import", "[", "fname", "]"}], ",", 
+            RowBox[{
+             RowBox[{"Indexed", "[", 
+              RowBox[{"\[FormalX]", ",", 
+               RowBox[{"{", "i_", "}"}]}], "]"}], "\[RuleDelayed]", "i"}], 
+            ",", "All"}], "]"}]}], "-", "1"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"!", 
+          RowBox[{"IntegerQ", "[", "dim", "]"}]}], ",", 
+         RowBox[{"dim", "=", "0"}]}], "]"}]}], ",", "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", "else", " ", "*)"}], "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"Export", "[", 
+        RowBox[{"fname", ",", 
+         RowBox[{"{", "}"}]}], "]"}], ";", 
+       RowBox[{"dim", "=", "0"}]}]}], "]"}], ";", "\[IndentingNewLine]", 
+    RowBox[{"Print", "[", 
+     RowBox[{
+     "\"\<loaded \>\"", ",", "deg", ",", "\"\< with dim \>\"", ",", "dim"}], 
+     "]"}], ";", "\[IndentingNewLine]", 
+    RowBox[{"While", "[", 
+     RowBox[{"True", ",", 
+      RowBox[{
+       RowBox[{"dim", "++"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"newSphHarms", "=", 
+        RowBox[{"Expand", "[", 
+         FractionBox[
+          RowBox[{"sphericalHarmonicBasis", "[", 
+           RowBox[{"dim", ",", "deg"}], "]"}], 
+          RowBox[{"Sqrt", "@", 
+           RowBox[{"FactorialPower", "[", 
+            RowBox[{
+             RowBox[{"dim", "+", 
+              RowBox[{"2", "deg"}], "-", "1"}], ",", "deg", ",", "2"}], 
+            "]"}]}]], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"Assert", "[", 
+        RowBox[{
+         RowBox[{"newSphHarms", "\[LeftDoubleBracket]", 
+          RowBox[{";;", 
+           RowBox[{"Length", "@", 
+            RowBox[{"Import", "[", "fname", "]"}]}]}], 
+          "\[RightDoubleBracket]"}], "===", 
+         RowBox[{"Import", "[", "fname", "]"}]}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Export", "[", 
+        RowBox[{"fname", ",", "newSphHarms"}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Print", "[", 
+        RowBox[{
+        "\"\<exported \>\"", ",", "deg", ",", "\"\< with dim \>\"", ",", 
+         "dim"}], "]"}]}]}], "]"}]}], ",", "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{"deg", ",", "2", ",", "10"}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.688791624711045*^9, 3.688791633725041*^9}, {
+  3.6887916864734335`*^9, 3.6887917527149286`*^9}, {3.6887917989899597`*^9, 
+  3.6887918519621334`*^9}, {3.6887921273260756`*^9, 3.6887922114503145`*^9}, {
+  3.6887924495847163`*^9, 3.688792485538619*^9}, {3.688792853148713*^9, 
+  3.6887928819766593`*^9}}]
+},
+WindowSize->{1500, 927},
+WindowMargins->{{-8, Automatic}, {Automatic, 0}},
+FrontEndVersion->"10.4 for Microsoft Windows (64-bit) (April 11, 2016)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 154, 3, 31, "Input"],
+Cell[715, 25, 3315, 79, 369, "Input"]
+}
+]
+*)
+
