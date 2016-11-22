@@ -97,17 +97,16 @@ sphericalHarmonicBasis[sphereDim, degree] =
 (*
 Self-consistency check. Should output an identity matrix.
 
-sphereDim = 3;
+sphereDim = 2;
 degree = 3;
 
 sphHarms = sphericalHarmonicBasis[sphereDim, degree] /. Thread[
 	cartesianVariables[sphereDim+1] \[Rule]
 		fromHyperangularCoordinates[sphereDim]];
 
-areaElement = hyperangularAreaElement[sphereDim];
-
 Map[Integrate @@ Prepend[hyperangularRanges[sphereDim], #]&,
-	areaElement*Outer[Times, sphHarms, sphHarms], {2}] /
+	hyperangularAreaElement[sphereDim] *
+		Outer[Times, sphHarms, sphHarms], {2}] /
 	RegionMeasure[Sphere[sphereDim + 1]]
 *)
 
@@ -132,7 +131,8 @@ sphericalHarmonicQuantumNumbers[sphereDim, degree] =
 
 ClearAll[generalHomogeneousPolynomial,
 	generalHomogeneousLaplacian,
-	generalHarmonicDecomposition];
+	generalHarmonicDecomposition,
+	generalHarmonicPart];
 
 generalHomogeneousPolynomial[numVars_Integer, degree_Integer] :=
 	Dot[monomials[numVars, degree], Indexed[\[FormalA], #] & /@
@@ -147,14 +147,22 @@ generalHomogeneousLaplacian[d, n, k] =
 	Laplacian[generalHomogeneousLaplacian[d, n, k - 1],
 		cartesianVariables[d]];
 
-generalHarmonicDecomposition[d_Integer, n_Integer] := Table[
+generalHarmonicDecomposition[d_Integer, n_Integer] :=
+generalHarmonicDecomposition[d, n] = Table[
 	Sum[Divide[
 		(-Total[cartesianVariables[d]^2])^j *
 			generalHomogeneousLaplacian[d, n, j+(n-m)/2],
-		(n-m)!! * (2j)!! * FactorialPower[d+2m-4, j, 2]] *
-			FactorialPower[d+n+m-2, (n-m)/2, 2],
+		(n-m)!! * (2j)!! * FactorialPower[d+2m-4, j, 2] *
+			FactorialPower[d+n+m-2, (n-m)/2, 2]],
 		{j, 0, Floor[m/2]}],
 	{m, n, 0, -2}];
+
+generalHarmonicPart[d_Integer, n_Integer] :=
+generalHarmonicPart[d, n] = Sum[Divide[
+	(-Total[cartesianVariables[d]^2])^j *
+		generalHomogeneousLaplacian[d, n, j],
+	(2j)!! * FactorialPower[d+2n-4, j, 2]],
+	{j, 0, Floor[n/2]}];
 
 
 (*
@@ -192,3 +200,42 @@ hypersphericalHarmonicY[j, k, m] = Module[{d, r},
 	FullSimplify[r^(j - k) *
 		GegenbauerC[j - k, d/2 - 1 + k, Indexed[\[FormalX], d]/r] *
 		hypersphericalHarmonicY[k, m]]];
+
+
+Needs["Developer`"];
+
+ClearAll[trigIntegratePi, trigIntegrate2Pi, sphInnProd];
+
+trigIntegratePi[m_Integer, n_Integer] :=
+trigIntegratePi[m, n] =
+	If[OddQ[n], 0, Beta[(m+1)/2, (n+1)/2]];
+
+trigIntegrate2Pi[m_Integer, n_Integer] :=
+trigIntegrate2Pi[m, n] =
+	If[OddQ[m] || OddQ[n], 0, 2*Beta[(m+1)/2, (n+1)/2]];
+
+sphInnProd[0, deg_Integer] := SparseArray[{{1}}];
+
+sphInnProd[dim_Integer, deg_Integer] := Module[{
+		parts = ToPackedArray[Reverse /@
+			orderedIntegerPartitions[dim + 1, 0][deg]],
+		tc = ToPackedArray@Join[{
+				Append[ConstantArray[{1, 0}, dim - 1], {0, 1}],
+				ConstantArray[{1, 0}, dim]},
+			Table[Join[
+				ConstantArray[{0, 0}, k - 1],
+				{{0, 1}},
+				ConstantArray[{1, 0}, dim - k - 1],
+				{{0, 0}}],
+			{k, dim - 1}]],
+		ta = ToPackedArray@Append[
+			Table[{k, 0}, {k, dim - 1}], {0, 0}],
+		arr = {}, tup, ans},
+	Do[
+		tup = (parts[[i]] + parts[[j]]).tc + ta;
+		ans = Times[trigIntegrate2Pi @@ Last[tup],
+			Times @@ trigIntegratePi @@@ Most[tup],
+			RegionMeasure@Sphere[dim + 1]^-1];
+		If[ans != 0, AppendTo[arr, {i, j} -> ans]],
+	{i, Length[parts]}, {j, Length[parts]}];
+	SparseArray[arr]];
