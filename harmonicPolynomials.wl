@@ -1,9 +1,7 @@
 (* ::Package:: *)
 
-Import[FileNameJoin[{NotebookDirectory[],
-	"combinatorics.wl"}]];
-Import[FileNameJoin[{NotebookDirectory[],
-	"hypersphericalCoordinates.wl"}]];
+Import[FileNameJoin[{$snippetDirectory, "combinatorics.wl"}]];
+Import[FileNameJoin[{$snippetDirectory, "hypersphericalCoordinates.wl"}]];
 
 
 ClearAll[monomials, harmonicPolynomialBasis];
@@ -38,6 +36,7 @@ harmonicPolynomialBasis[numVars_Integer, degree_Integer] :=
 
 ClearAll[sphericalInnerProduct, sphericalHarmonicBasis];
 
+(*
 Hold[sphericalInnerProduct[ToExpression[#1], ToExpression[#2]] =
 	Import["sphericalInnerProduct_" <> #1 <> "_" <> #2 <> ".m"]] & @@@
 		Join @@ StringCases[FileNames[], StringExpression[
@@ -48,6 +47,7 @@ Hold[sphericalInnerProduct[ToExpression[#1], ToExpression[#2]] =
 			".m"
 		] :> {dim, deg}
 ] // Map[ReleaseHold];
+*)
 
 (* 1 is the only monomial of degree 0, and its integral is 1. *)
 sphericalInnerProduct[sphereDim_Integer, 0] = SparseArray[{{1}}];
@@ -180,6 +180,81 @@ Table[Expand[generalHomogeneousPolynomial[d, n] - Dot[
 *)
 
 
+ClearAll[normalizedSphericalHarmonics,
+	normalizeSphericalHarmonic, normSphHarm, sphHarmCoeffs];
+
+normalizedSphericalHarmonics[dim_, deg_] := Expand@Divide[
+	sphericalHarmonicBasis[dim, deg],
+	Sqrt@FactorialPower[dim + 2*deg - 1, deg, 2]];
+
+normalizeSphericalHarmonic[sphHarm_] := Module[{dim, deg, f1, f2},
+	dim = Max[0, Cases[sphHarm, Indexed[\[FormalX], {i_}] :> i, All]];
+	If[dim == 0, Return[1]];
+	deg = assertFirst@Union[Total /@ Outer[Exponent,
+		MonomialList[sphHarm],
+		cartesianVariables[dim]]];
+	f1 = Sqrt@Dot[sphericalIntegralTable[dim - 1, 2*deg],
+		Coefficient[sphHarm^2, monomials[dim, 2*deg]]];
+	f2 = Sqrt@FactorialPower[dim + 2*deg - 2, deg, 2];
+	sphHarm / f1 / f2];
+
+normSphHarm[sphHarm_] := Module[{dim, deg, f1, f2},
+	dim = Max[0, Cases[sphHarm, Indexed[\[FormalX], {i_}] :> i, All]];
+	If[dim == 0, Return[1]];
+	deg = assertFirst@Union[Total /@ Outer[Exponent,
+		MonomialList[sphHarm],
+		cartesianVariables[dim]]];
+	f1 = Sqrt[Integrate[sphHarm^2, \[FormalX] \[Element] Sphere[dim]] /
+		RegionMeasure@Sphere[dim]];
+	f2 = Sqrt@FactorialPower[dim + 2*deg - 2, deg, 2];
+	sphHarm / f1 / f2];
+
+sphHarmCoeffs[sphHarm_] := Module[{dim, deg, f1, f2},
+	dim = Max[0, Cases[sphHarm, Indexed[\[FormalX], {i_}] :> i, All]];
+	If[dim == 0, Return[1]];
+	deg = assertFirst@Union[Total /@ Outer[Exponent,
+		MonomialList[sphHarm],
+		cartesianVariables[dim]]];
+	Coefficient[sphHarm, monomials[dim, deg]]];
+
+
+ClearAll[sphericalHarmonicW];
+
+sphericalHarmonicW[0 ...] = 1;
+
+sphericalHarmonicW[1] = Indexed[\[FormalX], {1}];
+
+sphericalHarmonicW[deg_, j_, k___] :=
+sphericalHarmonicW[deg, j, k] = With[{dim = Length[{k}] + 2},
+	Expand@Dot[Table[(-Total[cartesianVariables[dim]^2])^i /
+			((2i)!! * FactorialPower[dim + 2*deg - 4, i, 2]),
+			{i, 0, Floor[deg/2]}],
+		NestList[Laplacian[#, cartesianVariables[dim]] &,
+			sphericalHarmonicW[j, k] * Indexed[\[FormalX], dim]^(deg - j),
+			Floor[deg/2]]]];
+
+ClearAll[sphericalHarmonicRange];
+
+sphericalHarmonicRange[0, deg_Integer] :=
+	If[0 <= deg <= 1, {{deg}}, {}];
+
+sphericalHarmonicRange[dim_Integer, deg_Integer] :=
+sphericalHarmonicRange[dim, deg] =
+	Prepend[deg] /@ Join @@ Table[
+		sphericalHarmonicRange[dim - 1, k],
+		{k, deg, 0, -1}];
+
+
+(*
+Self-consistency check. Should output all zeroes with no errors.
+
+Table[Expand[normalizedSphericalHarmonics[dim, deg]-
+	normSphHarm /@ sphericalHarmonicW @@@
+		sphericalHarmonicRange[dim, deg]],
+	{dim, 0, 4}, {deg, 0, 4}]
+*)
+
+
 ClearAll[hypersphericalHarmonicY];
 
 hypersphericalHarmonicY[m_Integer] :=
@@ -201,8 +276,6 @@ hypersphericalHarmonicY[j, k, m] = Module[{d, r},
 		GegenbauerC[j - k, d/2 - 1 + k, Indexed[\[FormalX], d]/r] *
 		hypersphericalHarmonicY[k, m]]];
 
-
-Needs["Developer`"];
 
 ClearAll[trigIntegratePi, trigIntegrate2Pi, sphInnProd];
 
@@ -239,3 +312,26 @@ sphInnProd[dim_Integer, deg_Integer] := Module[{
 		If[ans != 0, AppendTo[arr, {i, j} -> ans]],
 	{i, Length[parts]}, {j, Length[parts]}];
 	SparseArray[arr]];
+
+
+ClearAll[sphericalIntegralTable];
+sphericalIntegralTable[0, deg_Integer] := {1 - Mod[deg, 2]};
+
+sphericalIntegralTable[dim_Integer, deg_Integer] :=
+sphericalIntegralTable[dim, deg] = Module[{
+		tc = ToPackedArray@Join[{
+				Append[ConstantArray[{1, 0}, dim - 1], {0, 1}],
+				ConstantArray[{1, 0}, dim]},
+			Table[Join[
+				ConstantArray[{0, 0}, k - 1],
+				{{0, 1}},
+				ConstantArray[{1, 0}, dim - k - 1],
+				{{0, 0}}],
+			{k, dim - 1}]],
+		ta = ToPackedArray@Append[
+			Table[{k, 0}, {k, dim - 1}], {0, 0}]},
+	mapMonitored[With[{tup = Reverse[#].tc + ta},
+		Times[trigIntegrate2Pi @@ Last[tup],
+			Times @@ trigIntegratePi @@@ Most[tup],
+			RegionMeasure@Sphere[dim + 1]^-1]] &,
+		orderedIntegerPartitions[dim + 1, 0][deg]]];
