@@ -1,7 +1,7 @@
 (* ::Package:: *)
 
-Import[FileNameJoin[{$snippetDirectory, "combinatorics.wl"}]];
-Import[FileNameJoin[{$snippetDirectory, "hypersphericalCoordinates.wl"}]];
+Import@FileNameJoin[{$snippetDirectory, "combinatorics.wl"}];
+Import@FileNameJoin[{$snippetDirectory, "hypersphericalCoordinates.wl"}];
 
 
 ClearAll[monomials, harmonicPolynomialBasis];
@@ -21,8 +21,8 @@ harmonicPolynomialBasis[0, degree_Integer] = {};
 harmonicPolynomialBasis[1, degree_Integer] = {};
 
 harmonicPolynomialBasis[numVars_Integer, 2] :=
-	Dot[Reverse@NullSpace@List@
-		Laplacian[monomials[numVars, 2],
+	Dot[Reverse@NullSpace@List@Laplacian[
+			monomials[numVars, 2],
 			Indexed[\[FormalX], #]& /@ Range[numVars]],
 		monomials[numVars, 2]];
 
@@ -222,14 +222,17 @@ ClearAll[sphericalHarmonicW];
 
 sphericalHarmonicW[0 ...] = 1;
 
-sphericalHarmonicW[1] = Indexed[\[FormalX], {1}];
+sphericalHarmonicW[1] = Indexed[\[FormalX], 1];
 
 sphericalHarmonicW[deg_, j_, k___] :=
-sphericalHarmonicW[deg, j, k] = With[{dim = Length[{k}] + 2},
-	Expand@Dot[Table[(-Total[cartesianVariables[dim]^2])^i /
+sphericalHarmonicW[deg, j, k] = Module[{dim, r, r2},
+	dim = Length[{k}] + 2;
+	r = Indexed[\[FormalX], #]& /@ Range[dim];
+	r2 = r.r;
+	Expand@Dot[Table[(-r2)^i /
 			((2i)!! * FactorialPower[dim + 2*deg - 4, i, 2]),
 			{i, 0, Floor[deg/2]}],
-		NestList[Laplacian[#, cartesianVariables[dim]] &,
+		NestList[Laplacian[#, r] &,
 			sphericalHarmonicW[j, k] * Indexed[\[FormalX], dim]^(deg - j),
 			Floor[deg/2]]]];
 
