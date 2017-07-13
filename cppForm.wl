@@ -124,6 +124,14 @@ cppForm@CompiledProcedure[ci_CompiledInfo, cs_CompiledSetup, cc_CompiledConstant
 cppForm[cf_CompiledFunction] := cppForm@ToCompiledProcedure[cf];
 
 
+(* ::Section:: *)
+(*Clang-Format*)
+
+
 clangFormat[code_String] := RunProcess[{"clang-format",
 		"-style=\"{BasedOnStyle: Google, IndentWidth: 4}\""},
+	"StandardOutput", code];
+
+clangFormat`NoColumnLimit[code_String] := RunProcess[{"clang-format",
+		"-style=\"{BasedOnStyle: Google, IndentWidth: 4, ColumnLimit: 0}\""},
 	"StandardOutput", code];
